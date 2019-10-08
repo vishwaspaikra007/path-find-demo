@@ -1,0 +1,29 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+}
+.grid {
+  width: 90vh;
+  height: 90vh;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(20, auto);
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+}
+.cell {
+  width: 100%;
+  height: 100%;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+}
+.cell:hover {
+  background: blue;
+}
