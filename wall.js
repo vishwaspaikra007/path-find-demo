@@ -6,22 +6,25 @@ var lastCellFill = false; // to fill the last cell after click and drag for wall
 var move = false; // to move start or end
 var activeBtn = 1; // tell which button is active
 var removeFirstCell = false; // to unfill current cell on mouse down ( for black only )
+var start = 202;
+var end = 217;
+var startColor = "rgb(26, 224, 26)";
 grid.innerHTML = "";
 for (let i = 0; i < 400; i++) {
-  grid.innerHTML += `<div class="cell" id="cell${i + 1}" 
+  grid.innerHTML += `<div class="cell" id="cell${i}" 
     onclick="fill(this,'click')" onmouseenter="saveColor(this)" 
     onmousedown="fill(this)" onmouseleave="clearhover(this)"></div>`;
 }
 // initial start and end value
 var c = document.querySelectorAll(".cell");
-c[202].style.background = "green";
-c[217].style.background = "black";
+c[start].style.background = startColor;
+c[end].style.background = "black";
 
 // cell color fill on click
 var fill = (x, y) => {
   if (y == undefined) {
     if (
-      x.style.background != "green" &&
+      x.style.background != startColor &&
       x.style.background != "black" &&
       x.style.background != "grey"
     ) {
@@ -32,9 +35,9 @@ var fill = (x, y) => {
       cellColor = x.style.background;
       move = true;
     }
-    if (cellColor == "black" || cellColor == "green") removeFirstCell = true;
+    if (cellColor == "black" || cellColor == startColor) removeFirstCell = true;
   }
-  if (cellColor == "grey" && y == "click" && x.style.background != "green") {
+  if (cellColor == "grey" && y == "click" && x.style.background != startColor) {
     x.style.background = "black";
     x.classList.add("filled");
     // active(1, document.querySelector("#wallBtn"));
@@ -53,14 +56,14 @@ window.onmouseup = () => {
 // on mouse enter in the cell
 var saveColor = ths => {
   color = ths.style.background;
-  if (ths.style.background != "green" && ths.style.background != "black")
+  if (ths.style.background != startColor && ths.style.background != "black")
     ths.style.background = cellColor;
-  else if (cellColor == "green") ths.style.background = "green";
+  else if (cellColor == startColor) ths.style.background = startColor;
   if (fillCell) lastCellFill = true;
 };
 // on mouse leave from the cell
 var clearhover = x => {
-  if (x.style.background != "green" && x.style.background != "black") {
+  if (x.style.background != startColor && x.style.background != "black") {
     if (lastCellFill) {
       x.style.background = cellColor;
       color = cellColor;
@@ -68,19 +71,21 @@ var clearhover = x => {
     }
     x.style.background = color;
   }
-  if (x.style.background == "green" || x.style.background == "black") {
+  if (x.style.background == startColor || x.style.background == "black") {
     if (
       move &&
       removeFirstCell &&
       ((color == "black" && cellColor == "black") ||
-        (color == "green" && cellColor == "green"))
+        (color == startColor && cellColor == startColor))
     ) {
       removeFirstCell = false;
       x.style.background = "";
     } else if (move) x.style.background = color;
     else {
-      if (cellColor == "green") x.style.background = "green";
-      else x.style.background = x.style.background;
+      if (cellColor == startColor) {
+        x.style.background = startColor;
+        start = Number(x.id.slice(4, x.id.length));
+      } else x.style.background = x.style.background;
       if (activeBtn == 1) cellColor = "purple";
       else if (activeBtn == 2) cellColor = "grey";
       else if (activeBtn == 3) cellColor = "none";
@@ -96,7 +101,7 @@ var active = (x, ths) => {
       break;
     case 2:
       activeBtn = 2;
-      end(ths);
+      endBtn(ths);
       break;
     case 3:
       activeBtn = 3;
@@ -109,7 +114,7 @@ var active = (x, ths) => {
   }
 };
 // end button click function
-var end = ths => {
+var endBtn = ths => {
   defaults();
   ths.style.background = "black";
   ths.style.opacity = "1";
@@ -134,6 +139,7 @@ var runDijkstra = ths => {
   defaults();
   ths.style.background = "red";
   ths.style.cursor = "not-allowed";
+  dijkstraAlgoritm();
 };
 //for the design of buttons
 var defaults = () => {
