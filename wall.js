@@ -9,6 +9,7 @@ var removeFirstCell = false; // to unfill current cell on mouse down ( for black
 var start = 202;
 var end = 217;
 var startColor = "rgb(26, 224, 26)";
+var endColor = "black";
 grid.innerHTML = "";
 for (let i = 0; i < 400; i++) {
   grid.innerHTML += `<div class="cell" id="cell${i}" 
@@ -18,14 +19,14 @@ for (let i = 0; i < 400; i++) {
 // initial start and end value
 var c = document.querySelectorAll(".cell");
 c[start].style.background = startColor;
-c[end].style.background = "black";
+c[end].style.background = endColor;
 
 // cell color fill on click
 var fill = (x, y) => {
   if (y == undefined) {
     if (
       x.style.background != startColor &&
-      x.style.background != "black" &&
+      x.style.background != endColor &&
       x.style.background != "grey"
     ) {
       x.style.background = cellColor;
@@ -35,10 +36,11 @@ var fill = (x, y) => {
       cellColor = x.style.background;
       move = true;
     }
-    if (cellColor == "black" || cellColor == startColor) removeFirstCell = true;
+    if (cellColor == endColor || cellColor == startColor)
+      removeFirstCell = true;
   }
   if (cellColor == "grey" && y == "click" && x.style.background != startColor) {
-    x.style.background = "black";
+    x.style.background = endColor;
     x.classList.add("filled");
     // active(1, document.querySelector("#wallBtn"));
   }
@@ -56,14 +58,14 @@ window.onmouseup = () => {
 // on mouse enter in the cell
 var saveColor = ths => {
   color = ths.style.background;
-  if (ths.style.background != startColor && ths.style.background != "black")
+  if (ths.style.background != startColor && ths.style.background != endColor)
     ths.style.background = cellColor;
   else if (cellColor == startColor) ths.style.background = startColor;
   if (fillCell) lastCellFill = true;
 };
 // on mouse leave from the cell
 var clearhover = x => {
-  if (x.style.background != startColor && x.style.background != "black") {
+  if (x.style.background != startColor && x.style.background != endColor) {
     if (lastCellFill) {
       x.style.background = cellColor;
       color = cellColor;
@@ -71,11 +73,11 @@ var clearhover = x => {
     }
     x.style.background = color;
   }
-  if (x.style.background == startColor || x.style.background == "black") {
+  if (x.style.background == startColor || x.style.background == endColor) {
     if (
       move &&
       removeFirstCell &&
-      ((color == "black" && cellColor == "black") ||
+      ((color == endColor && cellColor == endColor) ||
         (color == startColor && cellColor == startColor))
     ) {
       removeFirstCell = false;
@@ -85,6 +87,9 @@ var clearhover = x => {
       if (cellColor == startColor) {
         x.style.background = startColor;
         start = Number(x.id.slice(4, x.id.length));
+      } else if (cellColor == endColor) {
+        x.style.background = endColor;
+        end = Number(x.id.slice(4, x.id.length));
       } else x.style.background = x.style.background;
       if (activeBtn == 1) cellColor = "purple";
       else if (activeBtn == 2) cellColor = "grey";
@@ -116,7 +121,7 @@ var active = (x, ths) => {
 // end button click function
 var endBtn = ths => {
   defaults();
-  ths.style.background = "black";
+  ths.style.background = endColor;
   ths.style.opacity = "1";
   cellColor = "grey";
 };
@@ -131,7 +136,7 @@ var wall = ths => {
 var clearCell = ths => {
   defaults();
   ths.style.background = "beige";
-  ths.style.color = "black";
+  ths.style.color = endColor;
   ths.style.opacity = "1";
   cellColor = "none";
 };

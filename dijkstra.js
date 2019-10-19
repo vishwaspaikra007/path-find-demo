@@ -1,26 +1,13 @@
 var MAX = Infinity;
 var grid = new Array(400).fill(MAX);
 var cellDetails = {};
-var searchColor = "#0000ff";
+var searchColor = "purple";
 var cellFrameRate = 20;
 var frameItr = 0;
 var itr;
 var visited = [[]];
 
 var dijkstraAlgoritm = () => {
-  var itr = start;
-  while (i < 400) {
-    var cond = i % 4;
-
-    if (cond == 0) {
-      Math.min(grid[itr - 20]);
-    } else if (cond == 1) {
-    } else if (cond == 2) {
-    } else {
-    }
-  }
-};
-var initNeighbour = () => {
   grid[start] = 0;
   visited[0][0] = [start, 0, [start]];
   var cellAll = document.querySelectorAll(".cell");
@@ -32,20 +19,21 @@ var initNeighbour = () => {
       let s = itr + 20;
       let e = itr + 1;
       let w = itr - 1;
-      if (n == end) return 0;
-      if (s == end) return 0;
-      if (e == end) return 0;
-      if (w == end) return 0;
+
       if (grid[n] != undefined) {
         console.log(n);
         if (grid[n] > visited[i][j][1] + 1) {
           grid[n] = visited[i][j][1] + 1;
           var arr2 = [n, grid[n], visited[i][j][2].concat([n])];
           arr.push(arr2);
+          if (n == end) {
+            pathDraw(arr2);
+            return;
+          }
           setTimeout(() => {
             cellAll[n].style.transition = "0.5s";
             cellAll[n].style.background = searchColor;
-          }, cellFrameRate * frameItr++);
+          }, cellFrameRate * ++frameItr);
         }
       }
       if (grid[s] != undefined) {
@@ -53,11 +41,15 @@ var initNeighbour = () => {
           grid[s] = visited[i][j][1] + 1;
           var arr2 = [s, grid[s], visited[i][j][2].concat([s])];
           arr.push(arr2);
+          if (s == end) {
+            pathDraw(arr2);
+            return;
+          }
           setTimeout(() => {
             let x = s;
             cellAll[s].style.transition = "0.5s";
             cellAll[s].style.background = searchColor;
-          }, cellFrameRate * frameItr++);
+          }, cellFrameRate * ++frameItr);
         }
       }
       if (grid[e] != undefined) {
@@ -65,11 +57,15 @@ var initNeighbour = () => {
           grid[e] = visited[i][j][1] + 1;
           var arr2 = [e, grid[e], visited[i][j][2].concat([e])];
           arr.push(arr2);
+          if (e == end) {
+            pathDraw(arr2);
+            return;
+          }
           setTimeout(() => {
             let x = e;
             cellAll[e].style.transition = "0.5s";
             cellAll[e].style.background = searchColor;
-          }, cellFrameRate * frameItr++);
+          }, cellFrameRate * ++frameItr);
         }
       }
       if (grid[w] != undefined) {
@@ -77,11 +73,15 @@ var initNeighbour = () => {
           grid[w] = visited[i][j][1] + 1;
           var arr2 = [w, grid[w], visited[i][j][2].concat([w])];
           arr.push(arr2);
+          if (w == end) {
+            pathDraw(arr2);
+            return;
+          }
           setTimeout(() => {
             let x = w;
             cellAll[w].style.transition = "0.5s";
             cellAll[w].style.background = searchColor;
-          }, cellFrameRate * frameItr++);
+          }, cellFrameRate * ++frameItr);
         }
       }
       if (arr.length > 0) visited.push(arr);
@@ -103,4 +103,14 @@ var initNeighbour = () => {
   //   cellAll[start - 1].style.transition = "0.5s";
   //   cellAll[start - 1].style.background = searchColor;
   // }, 800);
+};
+var pathDraw = cellInfo => {
+  setTimeout(() => {
+    var cellAll = document.querySelectorAll(".cell");
+    var i = 1;
+    var pathLoop = setInterval(() => {
+      cellAll[cellInfo[2][i++]].style.background = "white";
+      if (i >= cellInfo[2].length - 1) clearInterval(pathLoop);
+    }, 300);
+  }, cellFrameRate * frameItr);
 };
