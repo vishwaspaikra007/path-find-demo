@@ -26,7 +26,10 @@ var dijkstraAlgoritm = () => {
 
       if (grid[n] != undefined) {
         console.log(n);
-        if (grid[n] > visited[i][j][1] + 1) {
+        if (
+          grid[n] > visited[i][j][1] + 1 &&
+          cellAll[n].style.background != "orange"
+        ) {
           grid[n] = visited[i][j][1] + 1;
           var arr2 = [n, grid[n], visited[i][j][2].concat([n])];
           arr.push(arr2);
@@ -41,7 +44,10 @@ var dijkstraAlgoritm = () => {
         }
       }
       if (grid[s] != undefined) {
-        if (grid[s] > visited[i][j][1] + 1) {
+        if (
+          grid[s] > visited[i][j][1] + 1 &&
+          cellAll[s].style.background != "orange"
+        ) {
           grid[s] = visited[i][j][1] + 1;
           var arr2 = [s, grid[s], visited[i][j][2].concat([s])];
           arr.push(arr2);
@@ -59,7 +65,8 @@ var dijkstraAlgoritm = () => {
       if (grid[e] != undefined) {
         if (
           grid[e] > visited[i][j][1] + 1 &&
-          parseInt(e / 20) == parseInt((e - 1) / 20)
+          parseInt(e / 20) == parseInt((e - 1) / 20) &&
+          cellAll[e].style.background != "orange"
         ) {
           grid[e] = visited[i][j][1] + 1;
           var arr2 = [e, grid[e], visited[i][j][2].concat([e])];
@@ -78,7 +85,8 @@ var dijkstraAlgoritm = () => {
       if (grid[w] != undefined) {
         if (
           grid[w] > visited[i][j][1] + 1 &&
-          parseInt(w / 20) == parseInt((w + 1) / 20)
+          parseInt(w / 20) == parseInt((w + 1) / 20) &&
+          cellAll[w].style.background != "orange"
         ) {
           grid[w] = visited[i][j][1] + 1;
           var arr2 = [w, grid[w], visited[i][j][2].concat([w])];
