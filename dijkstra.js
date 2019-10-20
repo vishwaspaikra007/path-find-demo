@@ -2,12 +2,16 @@ var MAX = Infinity;
 var grid = new Array(400).fill(MAX);
 var cellDetails = {};
 var searchColor = "purple";
+var pathColor = "radial-gradient(black, transparent)";
 var cellFrameRate = 20;
+var pathFrameRate = 200;
 var frameItr = 0;
 var itr;
 var visited = [[]];
+var block = document.querySelector(".block");
 
 var dijkstraAlgoritm = () => {
+  block.style.display = "block";
   grid[start] = 0;
   visited[0][0] = [start, 0, [start]];
   var cellAll = document.querySelectorAll(".cell");
@@ -53,7 +57,10 @@ var dijkstraAlgoritm = () => {
         }
       }
       if (grid[e] != undefined) {
-        if (grid[e] > visited[i][j][1] + 1) {
+        if (
+          grid[e] > visited[i][j][1] + 1 &&
+          parseInt(e / 20) == parseInt((e - 1) / 20)
+        ) {
           grid[e] = visited[i][j][1] + 1;
           var arr2 = [e, grid[e], visited[i][j][2].concat([e])];
           arr.push(arr2);
@@ -69,7 +76,10 @@ var dijkstraAlgoritm = () => {
         }
       }
       if (grid[w] != undefined) {
-        if (grid[w] > visited[i][j][1] + 1) {
+        if (
+          grid[w] > visited[i][j][1] + 1 &&
+          parseInt(w / 20) == parseInt((w + 1) / 20)
+        ) {
           grid[w] = visited[i][j][1] + 1;
           var arr2 = [w, grid[w], visited[i][j][2].concat([w])];
           arr.push(arr2);
@@ -87,30 +97,17 @@ var dijkstraAlgoritm = () => {
       if (arr.length > 0) visited.push(arr);
     }
   }
-  // setTimeout(() => {
-  //   cellAll[start - 20].style.transition = "0.5s";
-  //   cellAll[start - 20].style.background = searchColor;
-  // }, 200);
-  // setTimeout(() => {
-  //   cellAll[start + 1].style.transition = "0.5s";
-  //   cellAll[start + 1].style.background = searchColor;
-  // }, 400);
-  // setTimeout(() => {
-  //   cellAll[start + 20].style.transition = "0.5s";
-  //   cellAll[start + 20].style.background = searchColor;
-  // }, 600);
-  // setTimeout(() => {
-  //   cellAll[start - 1].style.transition = "0.5s";
-  //   cellAll[start - 1].style.background = searchColor;
-  // }, 800);
 };
 var pathDraw = cellInfo => {
   setTimeout(() => {
     var cellAll = document.querySelectorAll(".cell");
     var i = 1;
     var pathLoop = setInterval(() => {
-      cellAll[cellInfo[2][i++]].style.background = "white";
-      if (i >= cellInfo[2].length - 1) clearInterval(pathLoop);
-    }, 300);
+      cellAll[cellInfo[2][i++]].style.background = pathColor;
+      if (i >= cellInfo[2].length - 1) {
+        block.style.display = "none";
+        clearInterval(pathLoop);
+      }
+    }, pathFrameRate);
   }, cellFrameRate * frameItr);
 };

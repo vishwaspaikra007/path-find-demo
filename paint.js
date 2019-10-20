@@ -1,6 +1,7 @@
 var grid = document.querySelector(".grid");
 var fillCell = false; // activates when clicked or clicked and draged / deactivates on mouseup
-var cellColor = "purple"; // initial hovering cell color, ready to color the cell with that color present as value
+var wallColor = "orange";
+var cellColor = wallColor; // initial hovering cell color, ready to color the cell with that color present as value
 var color = "none"; // to store the active/fixed color of the cell
 var lastCellFill = false; // to fill the last cell after click and drag for wall creation
 var move = false; // to move start or end
@@ -11,6 +12,7 @@ var end = 217;
 var startColor = "rgb(26, 224, 26)";
 var endColor = "black";
 grid.innerHTML = "";
+grid.style.display = "grid";
 for (let i = 0; i < 400; i++) {
   grid.innerHTML += `<div class="cell" id="cell${i}" 
     onclick="fill(this,'click')" onmouseenter="saveColor(this)" 
@@ -91,7 +93,7 @@ var clearhover = x => {
         x.style.background = endColor;
         end = Number(x.id.slice(4, x.id.length));
       } else x.style.background = x.style.background;
-      if (activeBtn == 1) cellColor = "purple";
+      if (activeBtn == 1) cellColor = wallColor;
       else if (activeBtn == 2) cellColor = "grey";
       else if (activeBtn == 3) cellColor = "none";
     }
@@ -128,9 +130,9 @@ var endBtn = ths => {
 // wall button click function
 var wall = ths => {
   defaults();
-  ths.style.background = "purple";
+  ths.style.background = wallColor;
   ths.style.opacity = "1";
-  cellColor = "purple";
+  cellColor = wallColor;
 };
 // clear button click function
 var clearCell = ths => {
