@@ -1,22 +1,24 @@
 var MAX = Infinity;
-var grid = new Array(400).fill(MAX);
-var cellDetails = {};
 var searchColor = "purple";
 var pathColor = "radial-gradient(black, transparent)";
 var cellFrameRate = 20;
 var pathFrameRate = 200;
 var frameItr = 0;
 var itr;
-var visited = [[]];
 var block = document.querySelector(".block");
+var found = false;
 
 var dijkstraAlgoritm = () => {
+  let grid = new Array(400).fill(MAX);
+  let visited = [[]];
+
+  reset();
   block.style.display = "block";
   grid[start] = 0;
   visited[0][0] = [start, 0, [start]];
   var cellAll = document.querySelectorAll(".cell");
   for (let i = 0; i < visited.length; i++) {
-    var arr = [];
+    let arr = [];
     for (let j = 0; j < visited[i].length; j++) {
       itr = visited[i][j][0];
       let n = itr - 20;
@@ -25,13 +27,12 @@ var dijkstraAlgoritm = () => {
       let w = itr - 1;
 
       if (grid[n] != undefined) {
-        console.log(n);
         if (
           grid[n] > visited[i][j][1] + 1 &&
           cellAll[n].style.background != "orange"
         ) {
           grid[n] = visited[i][j][1] + 1;
-          var arr2 = [n, grid[n], visited[i][j][2].concat([n])];
+          let arr2 = [n, grid[n], visited[i][j][2].concat([n])];
           arr.push(arr2);
           if (n == end) {
             pathDraw(arr2);
@@ -105,8 +106,13 @@ var dijkstraAlgoritm = () => {
       if (arr.length > 0) visited.push(arr);
     }
   }
+  if (!found) {
+    block.style.display = "none";
+    active(1, document.querySelector("#wallBtn"));
+  }
 };
 var pathDraw = cellInfo => {
+  found = true;
   setTimeout(() => {
     var cellAll = document.querySelectorAll(".cell");
     var i = 1;
@@ -114,8 +120,27 @@ var pathDraw = cellInfo => {
       cellAll[cellInfo[2][i++]].style.background = pathColor;
       if (i >= cellInfo[2].length - 1) {
         block.style.display = "none";
+        active(1, document.querySelector("#wallBtn"));
         clearInterval(pathLoop);
       }
     }, pathFrameRate);
   }, cellFrameRate * frameItr);
+};
+var reset = () => {
+  found = false;
+  // visited = [[]];
+  // grid.fill(MAX);
+  clearSearch();
+};
+var clearSearch = () => {
+  let cellAll = document.querySelectorAll(".cell");
+  for (let i = 0; i < 400; i++) {
+    if (
+      cellAll[i].style.background != wallColor &&
+      cellAll[i].style.background != endColor &&
+      cellAll[i].style.background != startColor
+    ) {
+      cellAll[i].style.background = "none";
+    }
+  }
 };

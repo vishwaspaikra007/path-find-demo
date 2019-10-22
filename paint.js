@@ -122,6 +122,7 @@ var active = (x, ths) => {
 };
 // end button click function
 var endBtn = ths => {
+  return;
   defaults();
   ths.style.background = endColor;
   ths.style.opacity = "1";
@@ -145,7 +146,6 @@ var clearCell = ths => {
 var runDijkstra = ths => {
   defaults();
   ths.style.background = "red";
-  ths.style.cursor = "not-allowed";
   dijkstraAlgoritm();
 };
 //for the design of buttons
@@ -158,3 +158,23 @@ var defaults = () => {
   }
 };
 wall(document.querySelector("#wallBtn"));
+// to remove all walls in one click
+var removeAllWall = ths => {
+  var cellAll = document.querySelectorAll(".cell");
+  for (let i = 0; i < 400; i++)
+    if (cellAll[i].style.background == wallColor)
+      cellAll[i].style.background = "none";
+};
+// clear grid
+var clearGrid = () => {
+  let cellAll = document.querySelectorAll(".cell");
+  for (let i = 0; i < 400; i++) {
+    if (
+      cellAll[i].style.background != endColor &&
+      cellAll[i].style.background != startColor
+    ) {
+      cellAll[i].style.background = "none";
+      cellAll[i].style.transition = "0s";
+    }
+  }
+};

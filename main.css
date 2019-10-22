@@ -73,5 +73,37 @@ body {
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 1;
   display: none;
+}
+#endBtn:hover {
+  cursor: not-allowed;
+}
+#wallBtn:hover,
+#clearBtn:hover {
+  margin-left: 100px;
+}
+#wallBtn:hover > .options {
+  margin-left: -104px;
+  background: red;
+  color: white;
+  font-weight: bold;
+}
+#clearBtn:hover > .options {
+  margin-left: -104px;
+  background: red;
+  color: white;
+  font-weight: bold;
+}
+.options {
+  position: absolute;
+  padding: 4px;
+  width: 100px;
+  transition: 500ms;
+  margin-left: -204px;
+  margin-top: -4px;
+  border-radius: 5px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.3);
+  overflow: hidden;
 }
