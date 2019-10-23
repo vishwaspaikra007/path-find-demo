@@ -60,6 +60,7 @@ window.onmouseup = () => {
 // on mouse enter in the cell
 var saveColor = ths => {
   color = ths.style.background;
+  ths.style.transition = "0s";
   if (ths.style.background != startColor && ths.style.background != endColor)
     ths.style.background = cellColor;
   else if (cellColor == startColor) ths.style.background = startColor;
@@ -67,6 +68,7 @@ var saveColor = ths => {
 };
 // on mouse leave from the cell
 var clearhover = x => {
+  x.style.transition = "0.5s";
   if (x.style.background != startColor && x.style.background != endColor) {
     if (lastCellFill) {
       x.style.background = cellColor;
@@ -174,7 +176,6 @@ var clearGrid = () => {
       cellAll[i].style.background != startColor
     ) {
       cellAll[i].style.background = "none";
-      cellAll[i].style.transition = "0s";
     }
   }
 };

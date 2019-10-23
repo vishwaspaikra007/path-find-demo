@@ -11,7 +11,6 @@ var found = false;
 var dijkstraAlgoritm = () => {
   let grid = new Array(400).fill(MAX);
   let visited = [[]];
-
   reset();
   block.style.display = "block";
   grid[start] = 0;
@@ -128,8 +127,7 @@ var pathDraw = cellInfo => {
 };
 var reset = () => {
   found = false;
-  // visited = [[]];
-  // grid.fill(MAX);
+  frameItr = 0;
   clearSearch();
 };
 var clearSearch = () => {
