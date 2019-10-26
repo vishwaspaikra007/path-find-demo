@@ -91,6 +91,8 @@ var clearhover = x => {
         weight[Number(x.id.slice(4, x.id.length))] = 4;
       } else if (cellColor == colorWeight4) {
         weight[Number(x.id.slice(4, x.id.length))] = 5;
+      } else {
+        weight[Number(x.id.slice(4, x.id.length))] = 1;
       }
     }
     x.style.background = color;
