@@ -81,15 +81,18 @@ body {
 }
 #wallBtn:hover,
 #clearBtn:hover {
+  transition-delay: 500ms;
   margin-left: 100px;
 }
 #wallBtn:hover > .options {
+  transition-delay: 500ms;
   margin-left: -104px;
   background: red;
   color: white;
   font-weight: bold;
 }
 #clearBtn:hover > .options {
+  transition-delay: 500ms;
   margin-left: -104px;
   background: red;
   color: white;
@@ -106,4 +109,30 @@ body {
   text-align: center;
   background: rgba(0, 0, 0, 0.3);
   overflow: hidden;
+  display: none;
+}
+#weightMenu {
+  background: palegreen;
+  height: 50px;
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  padding: 10px;
+  grid-gap: 45px;
+}
+.weight {
+  border-radius: 50%;
+  padding: 5px;
+  box-shadow: 0 0 1px 2px white;
+}
+#weight1 {
+  background: silver;
+}
+#weight2 {
+  background: gray;
+}
+#weight3 {
+  background: slategray;
+}
+#weight4 {
+  background: darkslategray;
 }

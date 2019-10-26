@@ -1,16 +1,24 @@
 var MAX = Infinity;
 var searchColor = "purple";
-var pathColor = "radial-gradient(black, transparent)";
-var cellFrameRate = 20;
-var pathFrameRate = 200;
+var pathColorT = "radial-gradient(white 20%, purple 60%)";
+var pathColorS = "radial-gradient(white 20%, silver 60%)";
+var pathColorG = "radial-gradient(white 20%, gray 60%)";
+var pathColorSG = "radial-gradient(white 20%, slategray 60%)";
+var pathColorDSG = "radial-gradient(white 20%, darkslategray 60%)";
+var cellFrameRate = 10;
+var pathFrameRate = 100;
 var frameItr = 0;
 var itr;
 var block = document.querySelector(".block");
 var found = false;
+var cellAll = document.querySelectorAll(".cell");
+var grid = new Array(400).fill(MAX);
+var visited = [[]];
+var final = [];
 
 var dijkstraAlgoritm = () => {
-  let grid = new Array(400).fill(MAX);
-  let visited = [[]];
+  grid.fill(MAX);
+  visited = [[]];
   reset();
   block.style.display = "block";
   grid[start] = 0;
@@ -27,79 +35,60 @@ var dijkstraAlgoritm = () => {
 
       if (grid[n] != undefined) {
         if (
-          grid[n] > visited[i][j][1] + 1 &&
+          grid[n] > visited[i][j][1] + weight[n] &&
           cellAll[n].style.background != "orange"
         ) {
-          grid[n] = visited[i][j][1] + 1;
+          grid[n] = visited[i][j][1] + weight[n];
           let arr2 = [n, grid[n], visited[i][j][2].concat([n])];
           arr.push(arr2);
           if (n == end) {
-            pathDraw(arr2);
-            return;
+            final = arr2;
           }
-          setTimeout(() => {
-            cellAll[n].style.transition = "0.5s";
-            cellAll[n].style.background = searchColor;
-          }, cellFrameRate * ++frameItr);
+          setSearchColor(n);
         }
       }
       if (grid[s] != undefined) {
         if (
-          grid[s] > visited[i][j][1] + 1 &&
+          grid[s] > visited[i][j][1] + weight[s] &&
           cellAll[s].style.background != "orange"
         ) {
-          grid[s] = visited[i][j][1] + 1;
+          grid[s] = visited[i][j][1] + weight[s];
           var arr2 = [s, grid[s], visited[i][j][2].concat([s])];
           arr.push(arr2);
           if (s == end) {
-            pathDraw(arr2);
-            return;
+            final = arr2;
           }
-          setTimeout(() => {
-            let x = s;
-            cellAll[s].style.transition = "0.5s";
-            cellAll[s].style.background = searchColor;
-          }, cellFrameRate * ++frameItr);
+          setSearchColor(s);
         }
       }
       if (grid[e] != undefined) {
         if (
-          grid[e] > visited[i][j][1] + 1 &&
+          grid[e] > visited[i][j][1] + weight[e] &&
           parseInt(e / 20) == parseInt((e - 1) / 20) &&
           cellAll[e].style.background != "orange"
         ) {
-          grid[e] = visited[i][j][1] + 1;
+          grid[e] = visited[i][j][1] + weight[e];
           var arr2 = [e, grid[e], visited[i][j][2].concat([e])];
           arr.push(arr2);
           if (e == end) {
-            pathDraw(arr2);
-            return;
+            final = arr2;
           }
-          setTimeout(() => {
-            let x = e;
-            cellAll[e].style.transition = "0.5s";
-            cellAll[e].style.background = searchColor;
-          }, cellFrameRate * ++frameItr);
+          setSearchColor(e);
         }
       }
       if (grid[w] != undefined) {
         if (
-          grid[w] > visited[i][j][1] + 1 &&
+          grid[w] > visited[i][j][1] + weight[w] &&
           parseInt(w / 20) == parseInt((w + 1) / 20) &&
           cellAll[w].style.background != "orange"
         ) {
-          grid[w] = visited[i][j][1] + 1;
+          grid[w] = visited[i][j][1] + weight[w];
           var arr2 = [w, grid[w], visited[i][j][2].concat([w])];
           arr.push(arr2);
           if (w == end) {
-            pathDraw(arr2);
-            return;
+            final = arr2;
           }
-          setTimeout(() => {
-            let x = w;
-            cellAll[w].style.transition = "0.5s";
-            cellAll[w].style.background = searchColor;
-          }, cellFrameRate * ++frameItr);
+          setSearchColor(w);
         }
       }
       if (arr.length > 0) visited.push(arr);
@@ -109,6 +98,7 @@ var dijkstraAlgoritm = () => {
     block.style.display = "none";
     active(1, document.querySelector("#wallBtn"));
   }
+  pathDraw(final);
 };
 var pathDraw = cellInfo => {
   found = true;
@@ -116,10 +106,25 @@ var pathDraw = cellInfo => {
     var cellAll = document.querySelectorAll(".cell");
     var i = 1;
     var pathLoop = setInterval(() => {
-      cellAll[cellInfo[2][i++]].style.background = pathColor;
+      if (
+        cellAll[cellInfo[2][i]].style.background == "none" ||
+        cellAll[cellInfo[2][i]].style.background == "" ||
+        cellAll[cellInfo[2][i]].style.background == searchColor
+      )
+        cellAll[cellInfo[2][i++]].style.background = pathColorT;
+      else if (cellAll[cellInfo[2][i]].style.background == "silver")
+        cellAll[cellInfo[2][i++]].style.background = pathColorS;
+      else if (cellAll[cellInfo[2][i]].style.background == "gray")
+        cellAll[cellInfo[2][i++]].style.background = pathColorG;
+      else if (cellAll[cellInfo[2][i]].style.background == "slategray")
+        cellAll[cellInfo[2][i++]].style.background = pathColorSG;
+      else if (cellAll[cellInfo[2][i]].style.background == "darkslategray")
+        cellAll[cellInfo[2][i++]].style.background = pathColorDSG;
+      else i++;
       if (i >= cellInfo[2].length - 1) {
         block.style.display = "none";
         active(1, document.querySelector("#wallBtn"));
+        console.log(grid);
         clearInterval(pathLoop);
       }
     }, pathFrameRate);
@@ -136,9 +141,31 @@ var clearSearch = () => {
     if (
       cellAll[i].style.background != wallColor &&
       cellAll[i].style.background != endColor &&
-      cellAll[i].style.background != startColor
+      cellAll[i].style.background != startColor &&
+      cellAll[i].style.background != colorWeight1 &&
+      cellAll[i].style.background != colorWeight2 &&
+      cellAll[i].style.background != colorWeight3 &&
+      cellAll[i].style.background != colorWeight4
     ) {
-      cellAll[i].style.background = "none";
+      if (cellAll[i].style.background == pathColorS)
+        cellAll[i].style.background = colorWeight1;
+      else if (cellAll[i].style.background == pathColorG)
+        cellAll[i].style.background = colorWeight2;
+      else if (cellAll[i].style.background == pathColorSG)
+        cellAll[i].style.background = colorWeight3;
+      else if (cellAll[i].style.background == pathColorDSG)
+        cellAll[i].style.background = colorWeight4;
+      else cellAll[i].style.background = "none";
     }
   }
+};
+var setSearchColor = x => {
+  setTimeout(() => {
+    cellAll[x].style.transition = "0.5s";
+    if (
+      cellAll[x].style.background == "none" ||
+      cellAll[x].style.background == ""
+    )
+      cellAll[x].style.background = searchColor;
+  }, cellFrameRate * ++frameItr);
 };

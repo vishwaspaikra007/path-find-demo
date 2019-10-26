@@ -1,4 +1,4 @@
-var grid = document.querySelector(".grid");
+var gridBox = document.querySelector(".grid");
 var fillCell = false; // activates when clicked or clicked and draged / deactivates on mouseup
 var wallColor = "orange";
 var cellColor = wallColor; // initial hovering cell color, ready to color the cell with that color present as value
@@ -11,13 +11,22 @@ var start = 202;
 var end = 217;
 var startColor = "rgb(26, 224, 26)";
 var endColor = "black";
-grid.innerHTML = "";
-grid.style.display = "grid";
+var colorWeight1 = "silver";
+var colorWeight2 = "gray";
+var colorWeight3 = "slategray";
+var colorWeight4 = "darkslategray";
+var weight = new Array(400).fill(1);
+gridBox.innerHTML = "";
+gridBox.style.display = "grid";
 for (let i = 0; i < 400; i++) {
-  grid.innerHTML += `<div class="cell" id="cell${i}" 
+  gridBox.innerHTML += `<div class="cell" id="cell${i}" 
     onclick="fill(this,'click')" onmouseenter="saveColor(this)" 
     onmousedown="fill(this)" onmouseleave="clearhover(this)"></div>`;
 }
+// to hide the option button during startup
+var options = document.querySelectorAll(".options");
+options[0].style.display = "block";
+options[1].style.display = "block";
 // initial start and end value
 var c = document.querySelectorAll(".cell");
 c[start].style.background = startColor;
@@ -74,6 +83,15 @@ var clearhover = x => {
       x.style.background = cellColor;
       color = cellColor;
       lastCellFill = false;
+      if (cellColor == colorWeight1) {
+        weight[Number(x.id.slice(4, x.id.length))] = 2;
+      } else if (cellColor == colorWeight2) {
+        weight[Number(x.id.slice(4, x.id.length))] = 3;
+      } else if (cellColor == colorWeight3) {
+        weight[Number(x.id.slice(4, x.id.length))] = 4;
+      } else if (cellColor == colorWeight4) {
+        weight[Number(x.id.slice(4, x.id.length))] = 5;
+      }
     }
     x.style.background = color;
   }
@@ -94,10 +112,16 @@ var clearhover = x => {
       } else if (cellColor == endColor) {
         x.style.background = endColor;
         end = Number(x.id.slice(4, x.id.length));
-      } else x.style.background = x.style.background;
+      } else {
+        x.style.background = x.style.background;
+      }
       if (activeBtn == 1) cellColor = wallColor;
       else if (activeBtn == 2) cellColor = "grey";
       else if (activeBtn == 3) cellColor = "none";
+      else if (activeBtn == 5) cellColor = "silver";
+      else if (activeBtn == 6) cellColor = "gray";
+      else if (activeBtn == 7) cellColor = "slategray";
+      else if (activeBtn == 8) cellColor = "darkslategray";
     }
   }
 };
@@ -119,6 +143,22 @@ var active = (x, ths) => {
     case 4:
       activeBtn = 4;
       runDijkstra(ths);
+      break;
+    case 5:
+      activeBtn = 5;
+      addWeight(ths);
+      break;
+    case 6:
+      activeBtn = 6;
+      addWeight(ths);
+      break;
+    case 7:
+      activeBtn = 7;
+      addWeight(ths);
+      break;
+    case 8:
+      activeBtn = 8;
+      addWeight(ths);
       break;
   }
 };
@@ -153,7 +193,7 @@ var runDijkstra = ths => {
 //for the design of buttons
 var defaults = () => {
   var buttons = document.querySelectorAll(".buttons");
-  for (let i = 0; i < buttons.length; i++) {
+  for (let i = 1; i < buttons.length; i++) {
     buttons[i].style.opacity = "0.4";
     buttons[i].style.background = "blue";
     buttons[i].style.color = "white";
@@ -178,4 +218,17 @@ var clearGrid = () => {
       cellAll[i].style.background = "none";
     }
   }
+};
+// weights
+var weightAll = document.querySelectorAll(".weight");
+weightAll[0].style.background = colorWeight1;
+weightAll[1].style.background = colorWeight2;
+weightAll[2].style.background = colorWeight3;
+weightAll[3].style.background = colorWeight4;
+var addWeight = ths => {
+  cellColor = ths.style.background;
+  ths.style.transform = "scale(1.2)";
+  setTimeout(() => {
+    ths.style.transform = "scale(1)";
+  }, 200);
 };
