@@ -17,12 +17,8 @@ var visited = [[]];
 var final = [];
 
 var dijkstraAlgoritm = () => {
-  grid.fill(MAX);
-  visited = [[]];
   reset();
   block.style.display = "block";
-  grid[start] = 0;
-  visited[0][0] = [start, 0, [start]];
   var cellAll = document.querySelectorAll(".cell");
   for (let i = 0; i < visited.length; i++) {
     let arr = [];
@@ -98,44 +94,53 @@ var dijkstraAlgoritm = () => {
       if (arr.length > 0) visited.push(arr);
     }
   }
-  if (!found) {
-    block.style.display = "none";
-    active(1, document.querySelector("#wallBtn"));
-  }
   pathDraw(final);
 };
 var pathDraw = cellInfo => {
   setTimeout(() => {
-    var cellAll = document.querySelectorAll(".cell");
-    var i = 1;
-    var pathLoop = setInterval(() => {
-      if (
-        cellAll[cellInfo[2][i]].style.background == "none" ||
-        cellAll[cellInfo[2][i]].style.background == "" ||
-        cellAll[cellInfo[2][i]].style.background == searchColor
-      )
-        cellAll[cellInfo[2][i++]].style.background = pathColorT;
-      else if (cellAll[cellInfo[2][i]].style.background == "silver")
-        cellAll[cellInfo[2][i++]].style.background = pathColorS;
-      else if (cellAll[cellInfo[2][i]].style.background == "gray")
-        cellAll[cellInfo[2][i++]].style.background = pathColorG;
-      else if (cellAll[cellInfo[2][i]].style.background == "slategray")
-        cellAll[cellInfo[2][i++]].style.background = pathColorSG;
-      else if (cellAll[cellInfo[2][i]].style.background == "darkslategray")
-        cellAll[cellInfo[2][i++]].style.background = pathColorDSG;
-      else i++;
-      if (i >= cellInfo[2].length - 1) {
+    if (!found) {
+      setTimeout(() => {
         block.style.display = "none";
         active(1, document.querySelector("#wallBtn"));
-        console.log(grid);
-        clearInterval(pathLoop);
-      }
-    }, pathFrameRate);
+        alert("Path not found to end point");
+      }, 1000);
+    } else {
+      var cellAll = document.querySelectorAll(".cell");
+      var i = 1;
+      var pathLoop = setInterval(() => {
+        if (
+          cellAll[cellInfo[2][i]].style.background == "none" ||
+          cellAll[cellInfo[2][i]].style.background == "" ||
+          cellAll[cellInfo[2][i]].style.background == searchColor
+        )
+          cellAll[cellInfo[2][i++]].style.background = pathColorT;
+        else if (cellAll[cellInfo[2][i]].style.background == "silver")
+          cellAll[cellInfo[2][i++]].style.background = pathColorS;
+        else if (cellAll[cellInfo[2][i]].style.background == "gray")
+          cellAll[cellInfo[2][i++]].style.background = pathColorG;
+        else if (cellAll[cellInfo[2][i]].style.background == "slategray")
+          cellAll[cellInfo[2][i++]].style.background = pathColorSG;
+        else if (cellAll[cellInfo[2][i]].style.background == "darkslategray")
+          cellAll[cellInfo[2][i++]].style.background = pathColorDSG;
+        else i++;
+        if (i >= cellInfo[2].length - 1) {
+          block.style.display = "none";
+          active(1, document.querySelector("#wallBtn"));
+          console.log(grid);
+          clearInterval(pathLoop);
+        }
+      }, pathFrameRate);
+    }
   }, cellFrameRate * frameItr);
 };
 var reset = () => {
   found = false;
   frameItr = 0;
+  final = [];
+  grid.fill(MAX);
+  visited = [[]];
+  grid[start] = 0;
+  visited[0][0] = [start, 0, [start]];
   clearSearch();
 };
 var clearSearch = () => {

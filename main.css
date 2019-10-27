@@ -49,6 +49,7 @@ body {
 .buttons:hover {
   text-indent: -15px;
   font-weight: bold;
+  box-shadow: 5px 5px 10px black;
 }
 .selected {
   background: green;
@@ -82,18 +83,15 @@ body {
 }
 #wallBtn:hover,
 #clearBtn:hover {
-  transition-delay: 500ms;
   margin-left: 100px;
 }
 #wallBtn:hover > .options {
-  transition-delay: 500ms;
   margin-left: -104px;
   background: red;
   color: white;
   font-weight: bold;
 }
 #clearBtn:hover > .options {
-  transition-delay: 500ms;
   margin-left: -104px;
   background: red;
   color: white;
@@ -126,6 +124,7 @@ body {
 .weight {
   width: 30px;
   height: 30px;
+  margin: auto;
   border-radius: 50%;
   padding: 5px;
   text-align: center;
@@ -136,6 +135,7 @@ body {
 .weight:hover {
   text-indent: -10px;
   font-weight: bold;
+  box-shadow: 0 0 10px 10px;
 }
 #weight1 {
   background: silver;
@@ -150,10 +150,10 @@ body {
   background: darkslategray;
 }
 .portfolioContainer {
-  padding: 10px;
   position: absolute;
   top: 10px;
   left: 10px;
+  height: 60px;
 }
 .portfolio {
   width: 60px;
@@ -201,6 +201,7 @@ a {
 @media only screen and (max-width: 800px) {
   body {
     width: 100%;
+    height: auto;
     display: grid;
     grid-template-columns: auto;
     min-width: 0;
@@ -210,9 +211,11 @@ a {
     width: 95vw;
     height: 95vw;
     margin: 0;
+    margin-top: 20px;
   }
   .menu {
     width: 95vw;
+    margin-top: 20px;
   }
   .portfolio {
     transform: scale(1.1);

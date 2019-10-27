@@ -190,12 +190,13 @@ var clearCell = ths => {
 var runDijkstra = ths => {
   defaults();
   ths.style.background = "red";
+  ths.style.opacity = "1";
   dijkstraAlgoritm();
 };
 //for the design of buttons
 var defaults = () => {
   var buttons = document.querySelectorAll(".buttons");
-  for (let i = 1; i < buttons.length; i++) {
+  for (let i = 0; i < buttons.length; i++) {
     buttons[i].style.opacity = "0.4";
     buttons[i].style.background = "blue";
     buttons[i].style.color = "white";
