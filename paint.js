@@ -211,6 +211,7 @@ var removeAllWall = ths => {
 };
 // clear grid
 var clearGrid = () => {
+  weight.fill(1);
   let cellAll = document.querySelectorAll(".cell");
   for (let i = 0; i < 400; i++) {
     if (

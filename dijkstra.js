@@ -42,6 +42,7 @@ var dijkstraAlgoritm = () => {
           let arr2 = [n, grid[n], visited[i][j][2].concat([n])];
           arr.push(arr2);
           if (n == end) {
+            found = true;
             final = arr2;
           }
           setSearchColor(n);
@@ -56,6 +57,7 @@ var dijkstraAlgoritm = () => {
           var arr2 = [s, grid[s], visited[i][j][2].concat([s])];
           arr.push(arr2);
           if (s == end) {
+            found = true;
             final = arr2;
           }
           setSearchColor(s);
@@ -71,6 +73,7 @@ var dijkstraAlgoritm = () => {
           var arr2 = [e, grid[e], visited[i][j][2].concat([e])];
           arr.push(arr2);
           if (e == end) {
+            found = true;
             final = arr2;
           }
           setSearchColor(e);
@@ -86,6 +89,7 @@ var dijkstraAlgoritm = () => {
           var arr2 = [w, grid[w], visited[i][j][2].concat([w])];
           arr.push(arr2);
           if (w == end) {
+            found = true;
             final = arr2;
           }
           setSearchColor(w);
@@ -101,7 +105,6 @@ var dijkstraAlgoritm = () => {
   pathDraw(final);
 };
 var pathDraw = cellInfo => {
-  found = true;
   setTimeout(() => {
     var cellAll = document.querySelectorAll(".cell");
     var i = 1;

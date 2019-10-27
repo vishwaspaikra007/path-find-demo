@@ -48,6 +48,7 @@ body {
 }
 .buttons:hover {
   text-indent: -15px;
+  font-weight: bold;
 }
 .selected {
   background: green;
@@ -118,11 +119,23 @@ body {
   grid-template-columns: repeat(4, auto);
   padding: 10px;
   grid-gap: 45px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  color: white;
 }
 .weight {
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   padding: 5px;
+  text-align: center;
+  transition: 500ms;
+  cursor: pointer;
   box-shadow: 0 0 1px 2px white;
+}
+.weight:hover {
+  text-indent: -10px;
+  font-weight: bold;
 }
 #weight1 {
   background: silver;
@@ -135,4 +148,80 @@ body {
 }
 #weight4 {
   background: darkslategray;
+}
+.portfolioContainer {
+  padding: 10px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+.portfolio {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-image: url(./img/dp.jpeg);
+  position: relative;
+  z-index: 1;
+  background-size: cover;
+  box-shadow: 5px 5px 20px -6px black;
+  transition: 500ms;
+  transform: rotate(-45deg);
+  opacity: 0.1;
+  border: 2px solid orange;
+}
+.portfolioContainer:hover .portfolio {
+  transform: scale(1.1);
+  transform: rotate(0deg);
+  opacity: 1;
+}
+.content {
+  width: max-content;
+  overflow: hidden;
+  background: orange;
+  border-radius: 10px;
+  transition: 500ms;
+  position: relative;
+  top: -50px;
+  left: 30px;
+  text-indent: 30px;
+  padding: 10px;
+  opacity: 0;
+  transform: rotate(-45deg);
+  transform-origin: left;
+}
+.portfolioContainer:hover .content {
+  transform: scale(1.1);
+  transform: rotate(0deg);
+  opacity: 1;
+}
+a {
+  text-decoration: none;
+  color: white;
+}
+@media only screen and (max-width: 800px) {
+  body {
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto;
+    min-width: 0;
+    margin-top: 75px;
+  }
+  .grid {
+    width: 95vw;
+    height: 95vw;
+    margin: 0;
+  }
+  .menu {
+    width: 95vw;
+  }
+  .portfolio {
+    transform: scale(1.1);
+    transform: rotate(0deg);
+    opacity: 1;
+  }
+  .content {
+    transform: scale(1.1);
+    transform: rotate(0deg);
+    opacity: 1;
+  }
 }
