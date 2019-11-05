@@ -5,6 +5,7 @@ var pathColorS = "radial-gradient(white 20%, silver 60%)";
 var pathColorG = "radial-gradient(white 20%, gray 60%)";
 var pathColorSG = "radial-gradient(white 20%, slategray 60%)";
 var pathColorDSG = "radial-gradient(white 20%, darkslategray 60%)";
+var preSearchColor = "darkcyan";
 var cellFrameRate = 10;
 var pathFrameRate = 100;
 var frameItr = 0;
@@ -108,27 +109,37 @@ var pathDraw = cellInfo => {
       var cellAll = document.querySelectorAll(".cell");
       var i = 1;
       var pathLoop = setInterval(() => {
-        if (
-          cellAll[cellInfo[2][i]].style.background == "none" ||
-          cellAll[cellInfo[2][i]].style.background == "" ||
-          cellAll[cellInfo[2][i]].style.background == searchColor
-        )
-          cellAll[cellInfo[2][i++]].style.background = pathColorT;
-        else if (cellAll[cellInfo[2][i]].style.background == "silver")
-          cellAll[cellInfo[2][i++]].style.background = pathColorS;
-        else if (cellAll[cellInfo[2][i]].style.background == "gray")
-          cellAll[cellInfo[2][i++]].style.background = pathColorG;
-        else if (cellAll[cellInfo[2][i]].style.background == "slategray")
-          cellAll[cellInfo[2][i++]].style.background = pathColorSG;
-        else if (cellAll[cellInfo[2][i]].style.background == "darkslategray")
-          cellAll[cellInfo[2][i++]].style.background = pathColorDSG;
-        else i++;
-        if (i >= cellInfo[2].length - 1) {
-          block.style.display = "none";
-          active(1, document.querySelector("#wallBtn"));
-          console.log(grid);
-          clearInterval(pathLoop);
-        }
+        let k = i;
+        // cellAll[cellInfo[2][k]].style.transform = "scale(1.4)";
+        cellAll[cellInfo[2][k]].style.borderRadius = "50%";
+        setTimeout(() => {
+          if (i > cellInfo[2].length - 2) {
+            // cellAll[cellInfo[2][k]].style.transform = "scale(1)";
+            cellAll[cellInfo[2][k]].style.borderRadius = "0%";
+            block.style.display = "none";
+            active(1, document.querySelector("#wallBtn"));
+            console.log(grid);
+            clearInterval(pathLoop);
+            return;
+          }
+          if (
+            cellAll[cellInfo[2][i]].style.background == "none" ||
+            cellAll[cellInfo[2][i]].style.background == "" ||
+            cellAll[cellInfo[2][i]].style.background == searchColor
+          )
+            cellAll[cellInfo[2][i++]].style.background = pathColorT;
+          else if (cellAll[cellInfo[2][i]].style.background == "silver")
+            cellAll[cellInfo[2][i++]].style.background = pathColorS;
+          else if (cellAll[cellInfo[2][i]].style.background == "gray")
+            cellAll[cellInfo[2][i++]].style.background = pathColorG;
+          else if (cellAll[cellInfo[2][i]].style.background == "slategray")
+            cellAll[cellInfo[2][i++]].style.background = pathColorSG;
+          else if (cellAll[cellInfo[2][i]].style.background == "darkslategray")
+            cellAll[cellInfo[2][i++]].style.background = pathColorDSG;
+          else i++;
+          cellAll[cellInfo[2][k]].style.transform = "scale(1)";
+          cellAll[cellInfo[2][k]].style.borderRadius = "0%";
+        }, 400);
       }, pathFrameRate);
     }
   }, cellFrameRate * frameItr);
@@ -170,10 +181,23 @@ var clearSearch = () => {
 var setSearchColor = x => {
   setTimeout(() => {
     cellAll[x].style.transition = "0.5s";
-    if (
-      cellAll[x].style.background == "none" ||
-      cellAll[x].style.background == ""
-    )
-      cellAll[x].style.background = searchColor;
+    cellAll[x].style.transform = "scale(1.2)";
+    setTimeout(() => {
+      if (
+        cellAll[x].style.background == "none" ||
+        cellAll[x].style.background == ""
+      )
+        cellAll[x].style.background = preSearchColor;
+      setTimeout(() => {
+        cellAll[x].style.transform = "scale(1)";
+        if (
+          cellAll[x].style.background == "none" ||
+          cellAll[x].style.background == "" ||
+          cellAll[x].style.background == preSearchColor
+        ) {
+          cellAll[x].style.background = searchColor;
+        }
+      }, 300);
+    }, 200);
   }, cellFrameRate * ++frameItr);
 };
