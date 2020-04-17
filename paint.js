@@ -117,16 +117,20 @@ var clearhover = x => {
       } else {
         x.style.background = x.style.background;
       }
-      if (activeBtn == 1) cellColor = wallColor;
-      else if (activeBtn == 2) cellColor = "grey";
-      else if (activeBtn == 3) cellColor = "none";
-      else if (activeBtn == 5) cellColor = "silver";
-      else if (activeBtn == 6) cellColor = "gray";
-      else if (activeBtn == 7) cellColor = "slategray";
-      else if (activeBtn == 8) cellColor = "darkslategray";
+      cellColor = selectColor();
+
     }
   }
 };
+function selectColor() {
+  if (activeBtn == 1) return wallColor;
+  else if (activeBtn == 2) return endColor;
+  else if (activeBtn == 3) return "";
+  else if (activeBtn == 5) return colorWeight1;
+  else if (activeBtn == 6) return colorWeight2;
+  else if (activeBtn == 7) return colorWeight3;
+  else if (activeBtn == 8) return colorWeight4;
+}
 // function for active btn
 var active = (x, ths) => {
   switch (x) {
@@ -236,3 +240,37 @@ var addWeight = ths => {
     ths.style.transform = "scale(1)";
   }, 200);
 };
+
+
+// for phone touch path draw
+
+let allCells = {};
+let cells = document.querySelectorAll('.cell')
+let cellsInARow = 20;
+for (let i = 0, j = 0; i < cells.length; i++) {
+  if (i % cellsInARow == 0 && i >= cellsInARow)
+    j++;
+  let x = Math.floor((i % cellsInARow) * Math.floor(cells[0].getBoundingClientRect().width));
+  let y = Math.floor((j) * Math.floor(cells[0].getBoundingClientRect().width));
+  allCells[`${x}${y}`] = cells[i];
+}
+console.log(allCells)
+let gridCont = document.querySelector('.grid')
+
+gridCont.addEventListener('touchmove', event => {
+  if (getCell(event).style.background != startColor && getCell(event).style.background != endColor)
+    getCell(event).style.background = selectColor();
+
+})
+
+function getCell(event) {
+  let x = Math.floor(event.touches['0'].clientX - gridCont.getBoundingClientRect().x);
+  let y = Math.floor(event.touches['0'].clientY - gridCont.getBoundingClientRect().y);
+
+  let cells = document.querySelector('.cell')
+
+  x = Math.floor(x - Math.floor(x % Math.floor(cells.getBoundingClientRect().width)));
+  y = Math.floor(y - Math.floor(y % Math.floor(cells.getBoundingClientRect().height)));
+
+  return allCells[`${x}${y}`];
+}

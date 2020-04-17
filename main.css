@@ -1,6 +1,7 @@
 * {
   box-sizing: border-box;
 }
+
 body {
   margin: 0;
   display: flex;
@@ -11,6 +12,7 @@ body {
   min-width: 1000px;
   height: 100vh;
 }
+
 .grid {
   width: 90vh;
   height: 90vh;
@@ -19,23 +21,27 @@ body {
   border-top: 1px solid black;
   border-left: 1px solid black;
   display: none;
+  backdrop-filter: blur(15px);
+  z-index: 2;
 }
+
 .cell {
   width: 100%;
   height: 100%;
   border-right: 1px solid black;
   border-bottom: 1px solid black;
 }
-.cell:hover {
-  background: blue;
-}
+
 .menu {
   width: 300px;
   padding: 10px;
   padding-bottom: 0px;
-  border: 2px solid black;
+  border: 2px solid rgb(99, 98, 98);
   border-radius: 5px;
+  backdrop-filter: blur(15px);
+  z-index: 2;
 }
+
 .buttons {
   color: white;
   background: blue;
@@ -46,29 +52,35 @@ body {
   cursor: pointer;
   transition: 500ms;
 }
+
 .buttons:hover {
   text-indent: -15px;
   font-weight: bold;
   box-shadow: 5px 5px 10px black;
 }
+
 .selected {
   background: green;
 }
+
 .blocked {
   background: silver;
   color: rgba(100, 100, 100, 0.5);
   cursor: not-allowed;
 }
+
 .start {
   background: green;
   width: 100%;
   height: 100%;
 }
+
 .end {
   background: black;
   width: 100%;
   height: 100%;
 }
+
 .block {
   width: 100vw;
   height: 100vh;
@@ -78,25 +90,29 @@ body {
   z-index: 1;
   display: none;
 }
+
 #endBtn:hover {
   cursor: not-allowed;
 }
-#wallBtn:hover,
-#clearBtn:hover {
+
+#wallBtn:hover, #clearBtn:hover {
   margin-left: 100px;
 }
-#wallBtn:hover > .options {
+
+#wallBtn:hover>.options {
   margin-left: -104px;
   background: red;
   color: white;
   font-weight: bold;
 }
-#clearBtn:hover > .options {
+
+#clearBtn:hover>.options {
   margin-left: -104px;
   background: red;
   color: white;
   font-weight: bold;
 }
+
 .options {
   position: absolute;
   padding: 4px;
@@ -110,6 +126,7 @@ body {
   overflow: hidden;
   display: none;
 }
+
 #weightMenu {
   background: palegreen;
   height: 50px;
@@ -121,6 +138,7 @@ body {
   margin-bottom: 10px;
   color: white;
 }
+
 .weight {
   width: 30px;
   height: 30px;
@@ -132,29 +150,36 @@ body {
   cursor: pointer;
   box-shadow: 0 0 1px 2px white;
 }
+
 .weight:hover {
   text-indent: -10px;
   font-weight: bold;
   box-shadow: 0 0 10px 10px;
 }
+
 #weight1 {
   background: silver;
 }
+
 #weight2 {
   background: gray;
 }
+
 #weight3 {
   background: slategray;
 }
+
 #weight4 {
   background: darkslategray;
 }
+
 .portfolioContainer {
   position: absolute;
   top: 10px;
   left: 10px;
   height: 60px;
 }
+
 .portfolio {
   width: 60px;
   height: 60px;
@@ -169,11 +194,13 @@ body {
   opacity: 0.1;
   border: 2px solid orange;
 }
+
 .portfolioContainer:hover .portfolio {
   transform: scale(1.1);
   transform: rotate(0deg);
   opacity: 1;
 }
+
 .content {
   width: max-content;
   overflow: hidden;
@@ -189,33 +216,54 @@ body {
   transform: rotate(-45deg);
   transform-origin: left;
 }
+
 .portfolioContainer:hover .content {
   transform: scale(1.1);
   transform: rotate(0deg);
   opacity: 1;
 }
+
 a {
   text-decoration: none;
   color: white;
 }
+
 @media only screen and (max-width: 800px) {
+  html {
+    height: calc( 100vh - 100vmin);
+    overflow: hidden;
+    overflow-y: scroll;
+  }
   body {
     width: 100%;
     height: auto;
     display: grid;
     grid-template-columns: auto;
     min-width: 0;
-    margin-top: 75px;
+    padding-top: 75px;
+    height: calc( 100vh - 100vmin);
+    overflow: hidden;
+    overflow-y: scroll;
   }
   .grid {
-    width: 95vw;
-    height: 95vw;
+    width: 100vmin;
+    height: 100vmin;
     margin: 0;
     margin-top: 20px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
   }
   .menu {
     width: 95vw;
+    margin: auto;
     margin-top: 20px;
+  }
+  body::after {
+    content: "";
+    height: 100px;
+    width: auto;
+    display: block;
   }
   .portfolio {
     transform: scale(1.1);

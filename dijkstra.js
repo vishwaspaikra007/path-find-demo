@@ -118,7 +118,7 @@ var pathDraw = cellInfo => {
             cellAll[cellInfo[2][k]].style.borderRadius = "0%";
             block.style.display = "none";
             active(1, document.querySelector("#wallBtn"));
-            console.log(grid);
+
             clearInterval(pathLoop);
             return;
           }
@@ -141,6 +141,8 @@ var pathDraw = cellInfo => {
           cellAll[cellInfo[2][k]].style.borderRadius = "0%";
         }, 400);
       }, pathFrameRate);
+      console.log("cost of each cell");
+      console.log(grid);
     }
   }, cellFrameRate * frameItr);
 };
